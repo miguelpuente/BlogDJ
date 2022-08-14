@@ -48,6 +48,9 @@ INSTALLED_APPS = [
     'categorias',
     'posts',
     'users',
+    'django_bootstrap5',
+    'widget_tweaks',
+    'clear_cache',
 ]
 
 MIDDLEWARE = [
