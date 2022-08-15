@@ -15,7 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from categorias.views import listadoCategorias
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    # Dashboard Categorias
+
+    path('admin/categorias', listadoCategorias.as_view(template_name = 'categorias/index.html'), name = 'listadodecategorias'),
 ]
