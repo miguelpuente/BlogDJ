@@ -95,9 +95,9 @@ DATABASES = {
         'PASSWORD': env.str('DB_PASSWORD'),
         'HOST': env.str('DB_HOST'),
         'PORT': env.int('PORT'),
-        'OPTIONS': {
-            'sql_mode': env.str('sql_mode')
-        }
+#        'OPTIONS': {
+#            'sql_mode': env.str('sql_mode')
+#        }
     }
 }
 
