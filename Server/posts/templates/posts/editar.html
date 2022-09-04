@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.84.0">
+    <title>Administración Blog</title>
+
+    {% load django_bootstrap5 %}
+
+    {% load widget_tweaks %}
+
+    {% bootstrap_css %}
+
+    {% load static %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
+
+    {% load icon %}
+
+    <!-- Favicons -->
+<link rel="apple-touch-icon" href="/docs/5.0/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.0/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.0/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.0/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.0/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
+<link rel="icon" href="/docs/5.0/assets/img/favicons/favicon.ico">
+<meta name="theme-color" content="#7952b3">
+
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+  </head>
+  <body>
+    
+<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Hechos con Alma</a>
+  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="navbar-nav">
+    <div class="nav-item text-nowrap">
+      <a class="nav-link px-3" href="#">Cerrar Sesión</a>
+    </div>
+  </div>
+</header>
+
+<div class="container-fluid">
+  <div class="row">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <div class="position-sticky pt-3">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="sliders"></span>
+              {% icon "sliders" %}
+              Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'infoblog' %}">
+              <span data-feather="settings"></span>
+              {% icon "settings" %}
+              Detalle Blog
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'listadodecategorias' %}">
+              <span data-feather="grid"></span>
+              {% icon "grid" %}
+              Categorias
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'listadodeposts' %}">
+              <span data-feather="clipboard"></span>
+              {% icon "clipboard" %}
+              Posts
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'listadodeusers' %}">
+              <span data-feather="users"></span>
+              {% icon "users" %}
+              Usuarios
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Editar Post</h1>
+      </div>
+
+      <div class="table-responsive">
+
+        <form method="post" enctype="multipart/form-data">
+
+          {% csrf_token %}
+
+            <div class="mb-3">
+              <label for="titulo" class="form-label">Título</label>
+              <input class="form-control" type="text" id="titulo" name="titulo" required onload="crearURL(this.value)" onkeyup="crearURL(this.value)">
+            </div>
+            <div class="mb-3">
+                <label for="contenido" class="form-label">Contenido</label>
+                <textarea class="form-control" id="contenido" name="contenido" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="imagen" class="form-label">Imagen</label>
+              <div class="input-group">
+                  <input type="file" class="form-control" id="imagen" name="imagen" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="etiqueta" class="form-label">Etiqueta</label>
+              <input type="text" class="form-control" id="etiqueta" name="etiqueta" aria-describedby="etiquetaHelp" required readonly="readonly">
+            </div>
+            <div class="mb3">
+              <label for="visible" class="form-label">Visible</label>
+              <div class="input-group">
+                <div class="input-group-text">
+                  <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
+                </div>
+              </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Aceptar</button>
+          </form>
+        
+      </div>
+    </main>
+  </div>
+</div>
+
+  {% bootstrap_javascript %}
+
+  <script type="text/javascript" scr="{% static 'js/feather.min.js' %}"></script>
+  <script src="https://cdn.tiny.cloud/1/t2537jv6fs00yo0ry56l6ry7mb53wmv1bydm5ruxsslormaa/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+ 
+  <script>
+    tinymce.init({
+      selector: 'textarea#contenido',
+      plugins: 'a11ychecker advcode casechange export formatpainter image editimage linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tableofcontents tinycomments tinymcespellchecker image code',
+      toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter link image editimage pageembed permanentpen table tableofcontents',
+      toolbar_mode: 'floating',
+      tinycomments_mode: 'embedded',
+      tinycomments_author: 'Author name',
+      /* enable title field in the Image dialog*/
+      image_title: true,
+      /* enable automatic uploads of images represented by blob or data URIs*/
+      automatic_uploads: true,
+      file_picker_types: 'image',
+ 
+      /* and here's our custom image picker*/
+      file_picker_callback: (cb, value, meta) => {
+        const input = document.createElement('input');
+        input.setAttribute('type', 'file');
+        input.setAttribute('accept', 'image/*');
+ 
+        input.addEventListener('change', (e) => {
+          const file = e.target.files[0];
+ 
+          const reader = new FileReader();
+          reader.addEventListener('load', () => {
+            /*
+              Note: Now we need to register the blob in TinyMCEs image blob
+              registry. In the next release this part hopefully won't be
+              necessary, as we are looking to handle it internally.
+            */
+            const id = 'blobid' + (new Date()).getTime();
+            const blobCache =  tinymce.activeEditor.editorUpload.blobCache;
+            const base64 = reader.result.split(',')[1];
+            const blobInfo = blobCache.create(id, file, base64);
+            blobCache.add(blobInfo);
+ 
+            /* call the callback and populate the Title field with the file name */
+            cb(blobInfo.blobUri(), { title: file.name });
+          });
+          reader.readAsDataURL(file);
+        });
+ 
+        input.click();
+      },
+      content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }'
+    });
+  </script>
+
+  <script type="text/javascript">
+
+    function crearURL(etiqueta) {
+        etiqueta = etiqueta.replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ').toLowerCase();
+        etiqueta = etiqueta.replace(/^\s+|\s+$/gm, '');
+        etiqueta = etiqueta.replace(/\s+/g, '-');
+        let input = document.getElementById('etiqueta');
+        input.value = etiqueta;
+        document.getElementById(titulo).innerHTML= etiqueta
+
+    }
+
+  </script>
+
+  </body>
+  </body>
+</html>

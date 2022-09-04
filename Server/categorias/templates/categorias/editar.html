@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="es">
   <head>
@@ -9,6 +10,8 @@
     <title>Administración Blog</title>
 
     {% load django_bootstrap5 %}
+
+    {% load widget_tweaks %}
 
     {% bootstrap_css %}
 
@@ -106,56 +109,26 @@
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
 
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Categorías</h1>
+            <h1 class="h2">Editar Categoría</h1>
           </div>
 
           <div class="table-responsive">
-            <a type="button" class="btn btn-outline-success mb-3" href="{% url 'crearCategoria' %}">Agregar</a>
-            {% if messages %}
-
-              {% for message in messages %}
-
-                <div {% if message.tags %} class="alert alert-info" role="alert" {% endif %}>
-                  {{ message }}
-                </div>
-
-              {% endfor %}
-
-            {% endif %}
             
-            <table class="table table-striped table-sm">
-              <thead>
-                <tr>
-                  <th scope="col">Nombre</th>
-                  <th scope="col">Detalles</th>
-                  <th scope="col">Fecha Creación</th>
-                  <th scope="col">Fecha Actualización</th>
-                  <th scope="col">Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for categoria in object_list %}
-                <tr>
-                  <td>{{categoria.nombre}}</td>
-                  <td>{{categoria.detalles}}</td>
-                  <td>{{categoria.created_at }}</td>
-                  <td>{{categoria.updated_at }}</td>
-                  <td>
+            <form method="post" enctype="multipart/form-data">
 
-                    <form method="post" action="categorias/eliminar/{{ categoria.id }}">
+              {% csrf_token %}
 
-                      {% csrf_token %}
+                <div class="mb-3">
+                  <label for="nombre" class="form-label">Nombre</label>
+                  {{ form.nombre|add_class:"form-control" }}
+                </div>
+                <div class="mb-3">
+                    <label for="detalles" class="form-label">Detalles</label>
+                    <textarea class="form-control" id="detalles" value="{{categorias.detalles}}" name="detalles" rows="3" required>{{categorias.detalles}}</textarea>
+                </div>
+                <button type="submit" class="btn btn-outline-info btn-sm mt-5">Aceptar</button>
+              </form>
 
-                      <a type="button" class="btn btn-outline-info btn-sm" href="categorias/editar/{{categoria.id}}">Editar</a>
-
-                      <button type="submit" onclick="return eliminar();" class="btn btn-outline-danger btn-sm">Eliminar</button>
-
-                  </form>
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
           </div>
         </main>
       </div>
@@ -164,16 +137,6 @@
     {% bootstrap_javascript %}
 
     <script type="text/javascript" scr="{% static 'js/feather.min.js' %}"></script>
-
-    <script type="text/javascript">
-      function eliminar() {
-        let eliminar = confirm("¿ Desea eliminar la categoría ?");
-        if (eliminar)
-          return true;
-        else
-          return false;
-      }
-    </script>
 
   </body>
 </html>

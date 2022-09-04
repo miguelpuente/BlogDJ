@@ -14,15 +14,39 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from categorias.views import listadoCategorias
+from django.urls import path, include
+
+from users.views import listadoUsuarios, crearUser
+from blog.views import infoBlog, editarBlog
+from categorias.views import listadoCategorias, crearCategoria, editarCategoria, eliminarCategoria
+from posts.views import listadoPosts, crearPost, editarPost, eliminarPost
+
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    
+    # path('panel/', admin.site.urls),
 
-    # Dashboard Categorias
+    # Administración Blog
+    path('panel/blog', infoBlog.as_view(template_name = 'blog/index.html'), name='infoblog'),
+    path('panel/blog/editar/<int:pk>', editarBlog.as_view(template_name = 'blog/editar.html'), name = 'editarBlog'),
 
-    path('admin/categorias', listadoCategorias.as_view(template_name = 'categorias/index.html'), name = 'listadodecategorias'),
+    # Administración Categorías
+    path('panel/categorias', listadoCategorias.as_view(template_name = 'categorias/index.html'), name='listadodecategorias'),
+    path('panel/categorias/crear', crearCategoria.as_view(template_name = 'categorias/crear.html'), name = 'crearCategoria'),
+    path('panel/categorias/editar/<int:pk>', editarCategoria.as_view(template_name = 'categorias/editar.html'), name = 'editarCategoria'),
+    path('panel/categorias/eliminar/<int:pk>', eliminarCategoria.as_view(), name = 'eliminarCategoria'),
+
+    # Administración Posts
+    path('panel/posts', listadoPosts.as_view(template_name = 'posts/index.html'), name='listadodeposts'),
+    path('panel/posts/crear', crearPost.as_view(template_name = 'posts/crear.html'), name = 'crearPost'),
+    path('panel/posts/editar/<int:pk>', editarPost.as_view(template_name = 'posts/editar.html'), name = 'editarPost'),
+    path('panel/posts/eliminar/<int:pk>', eliminarPost.as_view(), name = 'eliminarPost'),
+
+
+    # Administración Usuarios
+    path('panel/usuarios', listadoUsuarios.as_view(template_name = 'users/index.html'), name='listadodeusers'),
+    path('panel/users/crear', crearUser.as_view(template_name = 'users/crear.html'), name = 'crearUser'),
+
 ]

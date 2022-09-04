@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django_bootstrap5',
     'widget_tweaks',
     'clear_cache',
+    'django_feather',
 ]
 
 MIDDLEWARE = [
@@ -96,12 +97,11 @@ DATABASES = {
         'PASSWORD': env.str('DB_PASSWORD'),
         'HOST': env.str('DB_HOST'),
         'PORT': env.int('PORT'),
-        'OPTIONS': {
-            'sql_mode': env.str('sql_mode')
-        }
+#        'OPTIONS': {
+#            'sql_mode': env.str('sql_mode')
+#        }
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -137,17 +137,20 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
-STATIC_ROOT = BASE_DIR / 'static'
+# Las rutas para las imágenes de los registros
+MEDIA_URL = '/blog/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'blog/static/uploads')
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'staticfiles')
-]
+#STATICFILES_DIRS = [
+#    os.path.join(BASE_DIR, 'staticfiles'),
+#    os.path.join(os.path.dirname(BASE_DIR),"static"),
+#]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
